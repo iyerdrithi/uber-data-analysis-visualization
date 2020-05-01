@@ -4,7 +4,7 @@ This Data Science project was designed by DataFlair in their series of R project
 <br>
 <br>
 The dataset is seperated by month and each has the following columns: <br> <br>
-Date/Time: The date and time of the Uber pickup <br>
-Lat: The latitude of the Uber pickup <br>
-Lon: The longitude of the Uber pickup <br>
-Base: The TLC base company code affiliated with the Uber pickup 
+**Date/Time:** The date and time of the Uber pickup <br>
+**Lat:** The latitude of the Uber pickup <br>
+**Lon:** The longitude of the Uber pickup <br>
+**Base:** The TLC base company code affiliated with the Uber pickup 
