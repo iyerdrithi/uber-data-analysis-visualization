@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1588262399368.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "AC86C84",
+    "lastKnownWriteTime" : 2003362116576,
+    "last_content_update" : 1588262399368,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "1B4EF130",
+        "caption" : "uber_data_2014",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=uber_data_2014&cache_key=1B4EF130",
+        "displayedObservations" : "4534327",
+        "environment" : "",
+        "expression" : "uber_data_2014",
+        "object" : "uber_data_2014",
+        "preview" : "0",
+        "totalObservations" : "4534327",
+        "variables" : "12"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

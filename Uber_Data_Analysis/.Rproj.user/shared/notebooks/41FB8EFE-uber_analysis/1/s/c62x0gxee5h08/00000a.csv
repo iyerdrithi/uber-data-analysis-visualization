@@ -1,0 +1,1 @@
+"0","ggplot(hour_data, aes(Hour, Total)) + geom_bar(stat = ""identity"", fill=""#f05d5d"") + ggtitle(""Trips Made Every Hour"") + theme(legend.position = ""none"") + scale_y_continuous(labels = comma)"

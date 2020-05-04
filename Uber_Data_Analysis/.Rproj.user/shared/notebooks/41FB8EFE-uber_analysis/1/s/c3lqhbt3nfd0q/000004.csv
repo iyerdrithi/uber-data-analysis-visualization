@@ -1,0 +1,9 @@
+"0","mean_lon <- mean(uber_data_2014$Lon)"
+"0","mean_lat <- mean(uber_data_2014$Lat)"
+"0",""
+"0","# Get map of New York City"
+"0","NY_map <- get_map(location = c(mean_lon, mean_lat), zoom = 14, scale = ""auto"", maptype = c(""roadmap""))"
+"2","Source : https://maps.googleapis.com/maps/api/staticmap?center=40.739261,-73.973019&zoom=14&size=640x640&scale=2&maptype=roadmap&language=en-EN&key=xxx
+"
+"0","NY <- ggmap(NY_map)"
+"0","NY"

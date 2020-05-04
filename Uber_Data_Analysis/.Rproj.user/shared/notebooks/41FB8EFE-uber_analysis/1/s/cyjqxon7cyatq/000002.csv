@@ -1,0 +1,52 @@
+"0","library(ggplot2)"
+"0","library(ggthemes)"
+"0","library(lubridate)"
+"2","
+Attaching package: ‘lubridate’
+
+"
+"2","The following object is masked from ‘package:base’:
+
+    date
+
+"
+"0","library(dplyr)"
+"2","
+Attaching package: ‘dplyr’
+
+"
+"2","The following objects are masked from ‘package:lubridate’:
+
+    intersect, setdiff, union
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+"
+"0","library(tidyr)"
+"0","library(DT)"
+"2","Registered S3 methods overwritten by 'htmltools':
+  method               from         
+  print.html           tools:rstudio
+  print.shiny.tag      tools:rstudio
+  print.shiny.tag.list tools:rstudio
+"
+"2","Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio
+"
+"0","library(scales)"
+"0","library(ggmap)"
+"2","Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
+"
+"2","Please cite ggmap if you use it! See citation(""ggmap"") for details.
+"
+"0","library(maps)"
+"0","library(mapdata)"

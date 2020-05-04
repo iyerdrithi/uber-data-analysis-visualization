@@ -1,0 +1,3 @@
+"0","# Plot Uber pickup locations on the New York City map generated above"
+"0","NY_map_plots <- NY + geom_point(data = uber_data_2014, aes(x = lon, y = lat), color = ""#d27dfa"", size = 0.1, alpha = 0.5)"
+"0","NY_map_plots"

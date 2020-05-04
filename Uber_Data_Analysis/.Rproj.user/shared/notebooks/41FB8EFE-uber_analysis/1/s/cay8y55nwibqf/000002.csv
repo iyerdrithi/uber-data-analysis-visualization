@@ -1,0 +1,1 @@
+"0","ggplot(day_data, aes(Day, Total)) + geom_bar(stat = ""identity"", fill = ""#0576a3"") + ggtitle(""Trips Made Everyday"") + theme(legend.position = ""none"") + scale_y_continuous(labels = comma)"

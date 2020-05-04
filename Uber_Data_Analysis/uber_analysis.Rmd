@@ -1,0 +1,198 @@
+---
+title: "Uber Data Analysis"
+output: html_notebook
+---
+
+1. running necessary packages
+```{r}
+library(ggplot2)
+library(ggthemes)
+library(lubridate)
+library(dplyr)
+library(tidyr)
+library(DT)
+library(scales)
+library(ggmap)
+library(maps)
+library(mapdata)
+```
+
+2. creating a vector of colors for the plot
+```{r}
+colors = c("#05a357", "#0576a3", "#d27dfa", "#f26bae", "#f2d56b", "#f05d5d", "#34baad")
+```
+
+3. reading data into their designated variables
+```{r}
+apr_data <- read_csv("C:/Users/diyer/Desktop/Uber-dataset/uber-raw-data-apr14.csv"),
+may_data <- read_csv("C:/Users/diyer/Desktop/Uber-dataset/uber-raw-data-may14.csv"),
+jun_data <- read_csv("C:/Users/diyer/Desktop/Uber-dataset/uber-raw-data-jun14.csv"),
+jul_data <- read_csv("C:/Users/diyer/Desktop/Uber-dataset/uber-raw-data-jul14.csv"),
+aug_data <- read_csv("C:/Users/diyer/Desktop/Uber-dataset/uber-raw-data-aug14.csv"),
+sep_data <- read_csv("C:/Users/diyer/Desktop/Uber-dataset/uber-raw-data-sep14.csv"),
+```
+
+4. Combining all of this data into a single dataframe called "uber_data_2014"
+```{r}
+uber_data_2014 <- rbind(apr_data, may_data, jun_data, jul_data, aug_data, sep_data),
+```
+
+5. Next we will format the Date/Time column and create factors of the time objects - day, month, year, hour, minute, seconds
+```{r}
+uber_data_2014$`Date/Time` <- as.POSIXct(uber_data_2014$`Date/Time`, format = "%m/%d/%Y %H:%M:%S")
+uber_data_2014$Time <- format(as.POSIXct(uber_data_2014$`Date/Time`, format = "%m/%d/%Y %H:%M:%S"), format="%H:%M:%S")
+uber_data_2014$`Date/Time` <- ymd_hms(uber_data_2014$`Date/Time`)
+uber_data_2014$Day <- factor(day(uber_data_2014$`Date/Time`))
+uber_data_2014$Month <- factor(month(uber_data_2014$`Date/Time`, label = TRUE))
+uber_data_2014$Year <- factor(year(uber_data_2014$`Date/Time`))
+uber_data_2014$DayofWeek <- factor(wday(uber_data_2014$`Date/Time`, label = TRUE))
+uber_data_2014$Hour <- factor(hour(hms(uber_data_2014$Time)))
+uber_data_2014$Minute <- factor(minute(hms(uber_data_2014$Time)))
+uber_data_2014$Second <- factor(second(hms(uber_data_2014$Time)))
+```
+
+6. View the first few rows of our new dataset
+```{r}
+head(uber_data_2014)
+```
+
+7. Plotting trips by the hour
+We will first use dplyr to aggregate our data based on the hour. Then, we will use ggplot2 to visualize our dataset.
+```{r}
+hour_data <- uber_data_2014 %>% group_by(Hour) %>% dplyr::summarize(Total = n())
+datatable(hour_data)
+```
+
+8. Plotting -
+```{r}
+ggplot(hour_data, aes(Hour, Total)) + geom_bar(stat = "identity", fill="#f05d5d") + ggtitle("Trips Made Every Hour") + theme(legend.position = "none") + scale_y_continuous(labels = comma)
+```
+
+Observation: We can see that the number of trips are higher in the evening around 5:00 PM and 6:00 PM.
+
+9. Plotting data for trips made every hour, including the month
+```{r}
+month_hour_data <- uber_data_2014 %>% group_by(Month, Hour) %>% dplyr::summarize(Total = n())
+ggplot(month_hour_data, aes(Hour, Total, fill = Month)) + geom_bar(stat = "identity") + ggtitle("Trips Made by Hour and Month") + scale_y_continuous(labels = comma)
+```
+
+10. Plotting data by trips during every day of the month
+```{r}
+day_data <- uber_data_2014 %>% group_by(Day) %>% dplyr::summarize(Total = n())
+datatable(day_data)
+```
+
+```{r}
+ggplot(day_data, aes(Day, Total)) + geom_bar(stat = "identity", fill = "#0576a3") + ggtitle("Trips Made Everyday") + theme(legend.position = "none") + scale_y_continuous(labels = comma)
+```
+
+Oberservation: Grouping by day, we can see that the 30th had the highest number of trips.
+
+11. Plotting the above data by month
+```{r}
+day_month_data <- uber_data_2014 %>% group_by(Month, Day) %>% dplyr::summarize(Total = n())
+ggplot(day_month_data, aes(Day, Total, fill = Month)) + geom_bar(stat = "identity") + ggtitle("Trips by Day and Month") + scale_y_continuous(labels = comma) + scale_fill_manual(values = colors)
+```
+Observation: While we noticed that 30th had the highest number of trips, this was mostly contributed by the month of April. 
+
+12. Number of Trips taking place during months in a year
+```{r}
+month_data <- uber_data_2014 %>% group_by(Month) %>% dplyr::summarize(Total = n())
+datatable(month_data)
+```
+
+```{r}
+ggplot(month_data, aes(Month, Total)) + geom_bar(stat = "identity", fill = "#34baad") + ggtitle("Trips by Month") + theme(legend.position = "none") + scale_y_continuous(labels = comma) + scale_fill_manual(values = colors)
+```
+Observation: Most trips were made during the month of September.
+
+13. Plotting the above data by day of the week
+```{r}
+dayofweek_month_data <- uber_data_2014 %>% group_by(Month, DayofWeek) %>% dplyr::summarize(Total = n())
+ggplot(dayofweek_month_data, aes(x = Month, y = Total, fill = DayofWeek)) + geom_bar(position = "dodge", stat = "identity") + scale_fill_manual(values = colors)
+```
+Observation: We can see that most of the trips were made in the month of September. The above plot shows the highest number of trips made on a Day of the week in that month. April had the highest number of trips made on Wednesday, May had the highest number of trips made on Friday, June had the highest number of trips made on Thursday, July had the highest number of trips made on Thursday and September had the highest number of trips made on Tuesday.
+
+14. Number of Trips by Bases
+The following visualizaition shows the number of trips taken by passengers from each of the bases. There are five bases.
+```{r}
+ggplot(uber_data_2014, aes(Base)) + geom_bar(fill = "#f2d56b") + scale_y_continuous(labels = comma) + ggtitle("Trips by Bases")
+```
+Observation: Base B02617 had the highest number of trips.
+
+Plotting by Bases and Month
+```{r}
+base_month_data <- uber_data_2014 %>% group_by(Month, Base) %>% dplyr::summarize(Total = n())
+ggplot(base_month_data, aes(x = Base, y = Total, fill = Month)) + geom_bar(position = "dodge", stat = "identity") + scale_fill_manual(values = colors)
+```
+Observation: We can see that B02617 has the highest number of trips in the month of September. 
+
+Plotting by Bases and Day of the week
+```{r}
+base_dayofweek_data <- uber_data_2014 %>% group_by(DayofWeek, Base) %>% dplyr::summarize(Total = n())
+ggplot(base_dayofweek_data, aes(x = Base, y = Total, fill = DayofWeek)) + geom_bar(position = "dodge", stat = "identity") + scale_fill_manual(values = colors)
+```
+Observation: Thursday observed highest number of trips in three bases - B02598, B02617, B02682.
+
+15. Creating a Heatmap Visualization of day, hour and month - to allow us to simultaenously visualize clusters of samples and featuers
+Plotting heatmap by hour and day
+```{r}
+day_and_hour <- uber_data_2014 %>% group_by(Day, Hour) %>% dplyr::summarize(Total = n())
+datatable(day_and_hour)
+```
+
+```{r}
+ggplot(day_and_hour, aes(Day, Hour, fill = Total)) + geom_tile(color = "white") + ggtitle("Heat Map by Hour and Day")
+```
+
+Plotting heatmap by day and month
+```{r}
+day_and_month <- uber_data_2014 %>% group_by(Day, Month) %>% dplyr::summarize(Total = n())
+ggplot(day_and_month, aes(Day, Month, fill = Total)) + geom_tile(color = "white") + ggtitle("Heat Map by Month and Day")
+```
+
+Plotting heatmap by month and day of week
+```{r}
+month_and_dayofweek <- uber_data_2014 %>% group_by(Month, DayofWeek) %>% dplyr::summarize(Total = n())
+ggplot(month_and_dayofweek, aes(DayofWeek, Month, fill = Total)) + geom_tile(color = "white") + ggtitle("Heat Map by Day of Week and Month")
+```
+
+Plotting heatmap by MOnth and Bases
+```{r}
+month_and_bases <- uber_data_2014 %>% group_by(Month, Base) %>% dplyr::summarize(Total = n())
+ggplot(month_and_bases, aes(Base, Month, fill = Total)) + geom_tile(color = "white") + ggtitle("Heat Map by Month and Bases")
+```
+
+Plotting heatmap by Bases and Day of Week
+```{r}
+bases_and_dayofweek <- uber_data_2014 %>% group_by(DayofWeek, Base) %>% dplyr::summarize(Total = n())
+ggplot(bases_and_dayofweek, aes(Base, DayofWeek, fill = Total)) + geom_tile(color = "white") + ggtitle("Heat Map by Bases and Day of Week")
+```
+
+16. Creating a map visualization of rides in New York
+Visualizing rides in the city by creating a geo-plot that will help us to visualize the rides in 2014 (April - September) and by the bases in the same period.
+
+```{r}
+mean_lon <- mean(uber_data_2014$Lon)
+mean_lat <- mean(uber_data_2014$Lat)
+
+# Get map of New York City
+NY_map <- get_map(location = c(mean_lon, mean_lat), zoom = 14, scale = "auto", maptype = c("roadmap"))
+NY <- ggmap(NY_map)
+NY
+```
+
+```{r}
+# Plot Uber pickup locations on the New York City map generated above
+NY_map_plots <- NY + geom_point(data = uber_data_2014, aes(x = lon, y = lat), color = "#d27dfa", size = 0.1, alpha = 0.5)
+NY_map_plots
+```
+
+
+
+
+
+
+
+
+
