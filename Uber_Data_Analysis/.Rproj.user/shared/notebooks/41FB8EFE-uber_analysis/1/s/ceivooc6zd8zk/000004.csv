@@ -1,2 +1,0 @@
-"0","base_month_data <- uber_data_2014 %>% group_by(Month, Base) %>% dplyr::summarize(Total = n())"
-"0","ggplot(base_month_data, aes(x = Base, y = Total, fill = Month)) + geom_bar(position = ""dodge"", stat = ""identity"") + scale_fill_manual(values = colors)"

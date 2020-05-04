@@ -1,2 +1,0 @@
-"0","day_and_hour <- uber_data_2014 %>% group_by(Day, Hour) %>% dplyr::summarize(Total = n())"
-"0","datatable(day_and_hour)"

@@ -1,2 +1,0 @@
-"0","day_and_month <- uber_data_2014 %>% group_by(Day, Month) %>% dplyr::summarize(Total = n())"
-"0","ggplot(day_and_month, aes(Day, Month, fill = Total)) + geom_tile(color = ""white"") + ggtitle(""Heat Map by Month and Day"")"

@@ -1,2 +1,0 @@
-"0","base_dayofweek_data <- uber_data_2014 %>% group_by(DayofWeek, Base) %>% dplyr::summarize(Total = n())"
-"0","ggplot(base_dayofweek_data, aes(x = Base, y = Total, fill = DayofWeek)) + geom_bar(position = ""dodge"", stat = ""identity"") + scale_fill_manual(values = colors)"

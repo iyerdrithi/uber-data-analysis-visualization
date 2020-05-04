@@ -1,2 +1,0 @@
-"0","day_month_data <- uber_data_2014 %>% group_by(Month, Day) %>% dplyr::summarize(Total = n())"
-"0","ggplot(day_month_data, aes(Day, Total, fill = Month)) + geom_bar(stat = ""identity"") + ggtitle(""Trips by Day and Month"") + scale_y_continuous(labels = comma) + scale_fill_manual(values = colors)"

@@ -1,1 +1,0 @@
-"0","ggplot(day_and_hour, aes(Day, Hour, fill = Total)) + geom_tile(color = ""white"") + ggtitle(""Heat Map by Hour and Day"")"
